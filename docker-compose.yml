@@ -1,0 +1,21 @@
+version: '3.8'
+services:
+  qbittorrent:
+    image: jacob0305/qbittorrent-nordvpn:latest
+    container_name: qbittorrent-vpn
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    sysctl:
+      - net.ipv4.conf.all.src_valid_mark=1
+      - net.ipv6.conf.all.disable_ipv6=1
+    ports:
+      - "8080:8080"
+      - "6181:6181"
+      - "6181:6181/udp"
+    volumes:
+      - ./config:/config
+      - ./downloads:/downloads
+    restart: unless-stopped
